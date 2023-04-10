@@ -14,29 +14,29 @@ const users = []    // { username: "bobesponja", avatar: "www.imagem.com" }
 app.post("/sign-up", (req, res) => {
     const { username, avatar } = req.body
 
-    if (!username || typeof userame !== "string" || !avatar || typeof avatar !== "string") {
+    if (!username || typeof username !== "string" || !avatar || typeof avatar !== "string") {
         return res.status(400).send("Todos os campos são obrigatórios!")
     }
 
     users.push({ username, avatar })
     console.log(users)
-    res.send("OK")
+    res.status(201).send("OK")
 })
 
 app.post("/tweets", (req, res) => {
     const { username, tweet } = req.body
 
-    if (!username || typeof userame !== "string" || !tweet || typeof tweet !== "string") {
+    if (!username || typeof username !== "string" || !tweet || typeof tweet !== "string") {
         return res.status(400).send("Todos os campos são obrigatórios!")
     }
 
     // find => retornar undefined se não achar OU o objeto do usuário se achar
     const userExists = users.find((user) => user.username === username)
 
-    if (!userExists) return res.send("UNAUTHORIZED")
+    if (!userExists) return res.status(401).send("UNAUTHORIZED")
 
     tweets.push({ username, tweet })
-    res.send("OK")
+    res.status(201).send("OK")
 })
 
 app.get("/tweets", (req, res) => {
