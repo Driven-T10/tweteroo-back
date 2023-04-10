@@ -20,7 +20,7 @@ app.post("/sign-up", (req, res) => {
 })
 
 app.post("/tweets", (req, res) => {
-    const { username, tweet } = req.body 
+    const { username, tweet } = req.body
 
     // find => retornar undefined se não achar OU o objeto do usuário se achar
     const userExists = users.find((user) => user.username === username)
@@ -31,7 +31,14 @@ app.post("/tweets", (req, res) => {
     res.send("OK")
 })
 
+app.get("/tweets", (req, res) => {
+    const completeTweets = tweets.map((tweet) => {
+        const user = users.find((u) => u.username === tweet.username)
+        return { ...tweet, avatar: user.avatar }
+    })
 
+    res.send(completeTweets.slice(-10))
+})
 
 const PORT = 5000
 app.listen(PORT, () => console.log(`Rodando servidor na porta ${PORT}`))
